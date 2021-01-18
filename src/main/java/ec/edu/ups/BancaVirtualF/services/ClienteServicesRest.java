@@ -11,7 +11,7 @@ import ec.edu.ups.BancaVirtualF.modelo.Cliente;
 import ec.edu.ups.BancaVirtualF.on.GestionUsuarioLocal;
 
 @Path("clientes")
-public class ClienteServicesRest  extends Application{
+public class ClienteServicesRest {
 	
 	@Inject
 	private GestionUsuarioLocal on;
@@ -34,9 +34,9 @@ public class ClienteServicesRest  extends Application{
 	
 	
 	@GET 
-	@Produces("aplication/json")
+	@Produces("application/json")
 	@Path("listarclientes")
-	@Consumes("aplication/json")
+	@Consumes("application/json")
 	public List<Cliente> listarC(){
 		return on.listaClientes();
 	}
@@ -44,8 +44,8 @@ public class ClienteServicesRest  extends Application{
 	
 	@POST
 	@Path("crearcliente")
-	@Produces("aplication/json")
-	@Consumes("aplication/json")
+	@Produces("application/json")
+	@Consumes("application/json")
 	public String Guardar(Cliente cliente) {
 		 Cliente c = cliente;
 		
