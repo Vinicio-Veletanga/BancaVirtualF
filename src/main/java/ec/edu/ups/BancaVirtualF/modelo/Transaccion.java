@@ -3,7 +3,9 @@ package ec.edu.ups.BancaVirtualF.modelo;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,6 +19,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 public class Transaccion implements Serializable {
+	private static  final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int codigoTransaccion;
@@ -26,8 +29,8 @@ public class Transaccion implements Serializable {
 	private Double monto;
 	private String tipo;
 	private Double saldoCuenta;
-	@OneToOne
-	@JoinColumn(name = "cedula_cliente")
+	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "cedula_cliente")
 	private Cliente cliente;
 	
 	/**

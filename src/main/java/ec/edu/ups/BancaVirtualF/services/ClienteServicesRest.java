@@ -7,6 +7,7 @@ import javax.jws.WebMethod;
 import javax.ws.rs.*;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.MediaType;
 
 import ec.edu.ups.BancaVirtualF.modelo.Cliente;
 import ec.edu.ups.BancaVirtualF.modelo.Transaccion;
