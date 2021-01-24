@@ -32,6 +32,7 @@ public class CuentaDeAhorroDAO {
 	
 	public void delete(String numeroCuentaDeAhorro) {
 		CuentaDeAhorro c = read(numeroCuentaDeAhorro);
+		//SE ACTUALIZA EL REGISTRO
 		em.remove(c);
 	}
 	

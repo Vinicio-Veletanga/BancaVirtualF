@@ -21,21 +21,29 @@ import ec.edu.ups.BancaVirtualF.modelo.Cliente;
 @Entity
 public class CuentaDeAhorro implements Serializable {
 	// Atributos de la clase
+
 	@Id
 	@Column(name = "numero_cuenta")
 	private String numeroCuentaDeAhorro;
 	private Date fechaDeRegistro;
+	private String estadoCuenta;
 	private Double saldoCuentaDeAhorro;
 	// RELACION DE UNO CLIENTE A MUCHAS CUENTAS
-	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
-//	@JoinColumn(name = "usuario")
-//	private Cliente cliente;	
-
-//	@ManyToOne
-	@JoinColumn(name = "cedula_cliente")
+	@OneToOne
+    @JoinColumn(name = "cedula_cliente")
 	private Cliente cliente;
 	
 	private String tipoCuenta;
+
+	
+	
+	public String getEstadoCuenta() {
+		return estadoCuenta;
+	}
+
+	public void setEstadoCuenta(String estadoCuenta) {
+		this.estadoCuenta = estadoCuenta;
+	}
 
 	public String getTipoCuenta() {
 		return tipoCuenta;
@@ -80,5 +88,17 @@ public class CuentaDeAhorro implements Serializable {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
+	
+	
+	
 
+	@Override
+	public String toString() {
+		return "CuentaDeAhorro [numeroCuentaDeAhorro=" + numeroCuentaDeAhorro + ", fechaDeRegistro=" + fechaDeRegistro
+				+ ", estadoCuenta=" + estadoCuenta + ", saldoCuentaDeAhorro=" + saldoCuentaDeAhorro + ", cliente="
+				+ cliente + ", tipoCuenta=" + tipoCuenta + "]";
+	}
+
+	
+	
 }
