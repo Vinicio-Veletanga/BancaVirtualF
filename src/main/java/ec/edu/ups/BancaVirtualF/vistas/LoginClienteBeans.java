@@ -127,7 +127,7 @@ public class LoginClienteBeans {
 		System.out.println("PASO LA LISTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		for (Cliente c : lstClis) {
 			System.out.println("ENTROOOOOOOOOOOO EN EL FORRRRRR");
-			if (c.getUsuario().equalsIgnoreCase(usuario) && c.getClave().equalsIgnoreCase(contraseña)) {
+			if (c.getUsuario().equalsIgnoreCase(usuario) && c.getClave().equalsIgnoreCase(contraseña) && c.getEstado().equalsIgnoreCase("C")) {
 				System.out.println("ENTROOOOOOOOOOOO EN EL IFFFFFFFFFFFFFF CORRECTO");
 				SesionCliente sesionCliente = new SesionCliente();
 				sesionCliente.setCliente(c);
