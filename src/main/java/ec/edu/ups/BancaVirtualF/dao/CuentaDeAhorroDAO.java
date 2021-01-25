@@ -37,14 +37,21 @@ public class CuentaDeAhorroDAO {
 	}
 	
 	public List<CuentaDeAhorro> getCuentaDeAhorros() {
-		String jpql = "SELECT c FROM CuentaDeAhorro c ";
+		String jpql = "SELECT c FROM cuentadeahorro c ";
 
 		Query q = em.createQuery(jpql, CuentaDeAhorro.class);
 		return q.getResultList();
 	}  
 	
+	public List<CuentaDeAhorro> listarcuentac(String cedulaCliente) {
+		String jpql = "SELECT * FROM cuentadeahorro c WHERE c.cliente.cedula = :cedulaCliente";
+
+		Query q = em.createQuery(jpql, CuentaDeAhorro.class);
+		return q.getResultList();
+	}
+	
 	public CuentaDeAhorro getCuentaCedulaCliente(String cedulaCliente) {
-		String jpql = "SELECT c FROM CuentaDeAhorro c WHERE c.cliente.cedula = :cedulaCliente";
+		String jpql = "SELECT c FROM cuentadeahorro c WHERE c.cliente.cedula = :cedulaCliente";
 		Query q = em.createQuery(jpql, CuentaDeAhorro.class);  
 		q.setParameter("cedulaCliente",cedulaCliente);
 		CuentaDeAhorro cuentaDeAhorro = (CuentaDeAhorro)q.getSingleResult();

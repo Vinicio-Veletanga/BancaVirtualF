@@ -2,6 +2,7 @@ package ec.edu.ups.BancaVirtualF.modelo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import ec.edu.ups.BancaVirtualF.modelo.Cliente;
@@ -18,9 +20,10 @@ import ec.edu.ups.BancaVirtualF.modelo.Cliente;
  * @author ADMINX
  *
  */
-@Entity
+@Entity(name="cuentadeahorro")
 public class CuentaDeAhorro implements Serializable {
 	// Atributos de la clase
+	//private static  final long serialVersionUID = 1L;
 
 	@Id
 	@Column(name = "numero_cuenta")
@@ -29,14 +32,13 @@ public class CuentaDeAhorro implements Serializable {
 	private String estadoCuenta;
 	private Double saldoCuentaDeAhorro;
 	// RELACION DE UNO CLIENTE A MUCHAS CUENTAS
-	@OneToOne
+	@ManyToOne
     @JoinColumn(name = "cedula_cliente")
 	private Cliente cliente;
-	
+	@OneToMany(mappedBy="cuentadeahorro")
+	List<Transaccion> Transaccion ;
 	private String tipoCuenta;
 
-	
-	
 	public String getEstadoCuenta() {
 		return estadoCuenta;
 	}
@@ -92,12 +94,26 @@ public class CuentaDeAhorro implements Serializable {
 	
 	
 
+	public List<Transaccion> getTransaccion() {
+		return Transaccion;
+	}
+
+	public void setTransaccion(List<Transaccion> transaccion) {
+		Transaccion = transaccion;
+	}
+
 	@Override
 	public String toString() {
 		return "CuentaDeAhorro [numeroCuentaDeAhorro=" + numeroCuentaDeAhorro + ", fechaDeRegistro=" + fechaDeRegistro
 				+ ", estadoCuenta=" + estadoCuenta + ", saldoCuentaDeAhorro=" + saldoCuentaDeAhorro + ", cliente="
-				+ cliente + ", tipoCuenta=" + tipoCuenta + "]";
+				+ cliente + ", Transaccion=" + Transaccion + ", tipoCuenta=" + tipoCuenta + "]";
 	}
+
+
+
+	
+	
+
 
 	
 	

@@ -120,6 +120,8 @@ public class LoginClienteBeans {
 	 * 
 	 * @return Nombre de Pagina a donde se va a redirigir la pagina
 	 */
+	
+	
 	public String validarCliente() {
 		List<Cliente> lstClis = gestionUsuarios.listaClientes();
 		System.out.println("PASO LA LISTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
@@ -153,6 +155,9 @@ public class LoginClienteBeans {
 		return "InicioClientes";
 	}
 
+	
+	
+	///METODO PARA DESLOGEARSE
 	public String logout() {
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		return "InicioClientes?faces-redirect=true";
