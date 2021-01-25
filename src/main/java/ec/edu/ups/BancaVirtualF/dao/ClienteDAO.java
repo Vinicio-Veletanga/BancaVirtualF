@@ -61,7 +61,7 @@ public class ClienteDAO {
 	 * @return Lista de clientes que estan registrados en la base de datos
 	 */
 	public List<Cliente> getClientes() {
-		String jpql = "SELECT c FROM Cliente c ";
+		String jpql = "SELECT c FROM cliente c ";
 
 		Query q = em.createQuery(jpql, Cliente.class);
 		return q.getResultList();
@@ -76,7 +76,7 @@ public class ClienteDAO {
 	 */
 	public Cliente obtenerClienteUsuarioContraseña(String usuario,String contra) throws Exception {
 		try {
-			String jpl = "select c from Cliente c Where c.usuario =:usu AND c.clave =:contr";
+			String jpl = "select c from cliente c Where c.usuario =:usu AND c.clave =:contr";
 			Query q = em.createQuery(jpl, Cliente.class);
 			q.setParameter("usu", usuario);
 			q.setParameter("contr", contra);
@@ -97,7 +97,7 @@ public class ClienteDAO {
 	 */
 	public Cliente obtenerClienteCorreoContraseña(String correo,String contra) throws Exception {
 		try {
-			String jpl = "select c from Cliente c Where c.correo =:corr AND c.clave =:contr";
+			String jpl = "select c from cliente c Where c.correo =:corr AND c.clave =:contr";
 			Query q = em.createQuery(jpl, Cliente.class);
 			q.setParameter("corr", correo);
 			q.setParameter("contr", contra);

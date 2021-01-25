@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -19,7 +20,7 @@ import javax.persistence.TemporalType;
  */
 @Entity
 public class Transaccion implements Serializable {
-	private static  final long serialVersionUID = 1L;
+	//private static  final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int codigoTransaccion;
@@ -29,9 +30,11 @@ public class Transaccion implements Serializable {
 	private Double monto;
 	private String tipo;
 	private Double saldoCuenta;
-	@OneToOne(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
-    @JoinColumn(name = "cedula_cliente")
-	private Cliente cliente;
+	@ManyToOne(fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
+    @JoinColumn(name = "numero_cuenta")
+	private CuentaDeAhorro cuentadeahorro;
+	
+	
 	
 	/**
 	 * Constructor vacio de acuerdo a JPA
@@ -39,6 +42,26 @@ public class Transaccion implements Serializable {
 	public Transaccion() {
 	}
 	
+	
+	
+	
+	public CuentaDeAhorro getCuentadeahorro() {
+		return cuentadeahorro;
+	}
+
+
+
+
+	public void setCuentadeahorro(CuentaDeAhorro cuentadeahorro) {
+		this.cuentadeahorro = cuentadeahorro;
+	}
+
+
+
+
+
+
+
 	/**
 	 *Metodo para obtener el codigo a la transaccion
 	 *@return codigoTransaccion Me perrmite devolver el codigo de la Transaccion
@@ -92,17 +115,7 @@ public class Transaccion implements Serializable {
 	 * Metodo para obtener el cliente de la Transaccion
 	 * @return cliente Me permite obtener la cedula del cliente que realizo la transaccion
 	 */
-	public Cliente getCliente() {
-		return cliente;
-	}
 	
-	/**
-	 * Metodo para asignar el cliente a la Transaccion
-	 * @param cliente El parametro cliente me permite asignar el cliente que realiza la transaccion
-	 */
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
 	
 	/**
 	 * Metodo para obtener el tipo de Transaccion
@@ -129,7 +142,13 @@ public class Transaccion implements Serializable {
 	}
 	
 	
-	
+
+	@Override
+	public String toString() {
+		return "Transaccion [codigoTransaccion=" + codigoTransaccion + ", fecha=" + fecha + ", monto=" + monto
+				+ ", tipo=" + tipo + ", saldoCuenta=" + saldoCuenta + ", cuentadeahorro=" + cuentadeahorro + "]";
+	}
+
 	
 	
 	

@@ -21,8 +21,9 @@ import ec.edu.ups.BancaVirtualF.modelo.CuentaDeAhorro;
  * @author ADMINX
  *
  */
-@Entity
-public class Cliente implements Serializable { 
+@Entity(name="cliente")
+public class Cliente implements Serializable {
+	
 	//Atributos de la entidad
 	@Id 
 	//@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,6 +44,10 @@ public class Cliente implements Serializable {
 	private String clave;  
 	private String estado;
 	
+	@OneToMany(mappedBy="cliente")
+	List<CuentaDeAhorro> cuentas;
+	
+	
 //	@OneToMany(mappedBy = "cliente")
 //	private Set<CuentaDeAhorro> cuentaDeAhorro;
 //
@@ -60,6 +65,16 @@ public class Cliente implements Serializable {
 	
 	
 	
+	
+
+
+	public List<CuentaDeAhorro> getCuentas() {
+		return cuentas;
+	}
+
+	public void setCuentas(List<CuentaDeAhorro> cuentas) {
+		this.cuentas = cuentas;
+	}
 
 
 
@@ -157,15 +172,6 @@ public class Cliente implements Serializable {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 
-	
-
-	@Override
-	public String toString() {
-		return "Cliente [cedula=" + cedula + ", nombre=" + nombre + ", apellido=" + apellido + ", direccion="
-				+ direccion + ", telefono1=" + telefono1 + ", telefono2=" + telefono2 + ", correo=" + correo
-				+ ", fechaNacimiento=" + fechaNacimiento + ", usuario=" + usuario + ", clave=" + clave + ", estado="
-				+ estado + "]";
-	} 
 	
 	
 	

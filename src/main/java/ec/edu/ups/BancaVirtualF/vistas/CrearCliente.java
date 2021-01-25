@@ -276,15 +276,7 @@ private String tipoCuenta;
 	 * 
 	 * @return Nulo
 	 */
-	public String crearCliente() {
-		try {
-			gestionUsuarios.guardarCliente(cliente);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
+	
 
 	public String validarCedula() {
 		if (cliente.getCedula() != null) {
@@ -313,36 +305,46 @@ private String tipoCuenta;
 		return numeroCuenta;
 	}
 
-	public String crearCuenta() {
+	public String crearCliente() {
 		try {
-			cuentaDeAhorro.setNumeroCuentaDeAhorro(numeroCuenta);
-			cuentaDeAhorro.setFechaDeRegistro(new Date());
-			cuentaDeAhorro.setCliente(cliente);
-			cuentaDeAhorro.setTipoCuenta(tipoCuenta);
-			cuentaDeAhorro.setSaldoCuentaDeAhorro(Double.parseDouble(saldoCuenta));
-			gestionUsuarios.guardarCuentaDeAhorros(cuentaDeAhorro);
-			Transaccion transaccion = new Transaccion();
-			transaccion.setFecha(new Date());
-			transaccion.setMonto(cuentaDeAhorro.getSaldoCuentaDeAhorro());
-			transaccion.setTipo("deposito");
-			transaccion.setCliente(cliente);
-			transaccion.setSaldoCuenta(cuentaDeAhorro.getSaldoCuentaDeAhorro());
-			
-			gestionUsuarios.guardarTransaccion(transaccion);
-			addMessage("Confirmacion", "Cliente Guardado");
-//			cliente = new Cliente();
-
-			try {
-				FacesContext contex = FacesContext.getCurrentInstance();
-				contex.getExternalContext().redirect("CrearCliente.xhtml");
-			} catch (Exception t) {
-
-			}
-		} catch (
-
-		Exception e) {
+			gestionUsuarios.guardarCliente(cliente);
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		return null;
+	}
+	public String crearCuenta() {
+		gestionUsuarios.guardarCliente(cliente);
+		cuentaDeAhorro.setNumeroCuentaDeAhorro(numeroCuenta);
+		cuentaDeAhorro.setFechaDeRegistro(new Date());
+		cuentaDeAhorro.setCliente(cliente);
+		cuentaDeAhorro.setTipoCuenta(tipoCuenta);
+		cuentaDeAhorro.setSaldoCuentaDeAhorro(Double.parseDouble(saldoCuenta));
+		System.out.println("edgoe es >> "+cuentaDeAhorro.toString());
+		gestionUsuarios.guardarCuentaDeAhorros(cuentaDeAhorro);
+		
+		Transaccion transaccion = new Transaccion();
+		transaccion.setFecha(new Date());
+		transaccion.setMonto(cuentaDeAhorro.getSaldoCuentaDeAhorro());
+		transaccion.setTipo("deposito");
+		transaccion.setCuentadeahorro(cuentaDeAhorro);
+		transaccion.setSaldoCuenta(cuentaDeAhorro.getSaldoCuentaDeAhorro());
+		
+		try {
+			gestionUsuarios.guardarTransaccion(transaccion);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		addMessage("Confirmacion", "Cliente Guardado");
+//		cliente = new Cliente();
+
+		try {
+			FacesContext contex = FacesContext.getCurrentInstance();
+			contex.getExternalContext().redirect("CrearCliente.xhtml");
+		} catch (Exception t) {
+
 		}
 		return null;
 	}
