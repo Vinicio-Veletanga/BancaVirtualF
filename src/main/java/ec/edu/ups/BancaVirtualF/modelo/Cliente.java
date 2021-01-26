@@ -8,8 +8,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -21,14 +19,11 @@ import ec.edu.ups.BancaVirtualF.modelo.CuentaDeAhorro;
  * @author ADMINX
  *
  */
-@Entity(name="cliente")
-public class Cliente implements Serializable {
-	
+@Entity
+public class Cliente implements Serializable { 
 	//Atributos de la entidad
+	private static  final long serialVersionUID = 1L;
 	@Id 
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
-	//@Column(name = "idcl")
-	//private int idcl;
 	@Column(name="cedula_cliente")
 	private String cedula; 
 	private String nombre; 
@@ -39,13 +34,12 @@ public class Cliente implements Serializable {
 	private String correo;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaNacimiento;
-	//@Column(name="usuario")
+//	@Column(name="usuario")
 	private String usuario; 
 	private String clave;  
 	private String estado;
 	
-	@OneToMany(mappedBy="cliente")
-	List<CuentaDeAhorro> cuentas;
+	
 	
 	
 //	@OneToMany(mappedBy = "cliente")
@@ -59,35 +53,17 @@ public class Cliente implements Serializable {
 //		this.cuentaDeAhorro = cuentaDeAhorro;
 //	}
 	
-	public Cliente() {
-
-	} 
-	
-	
-	
-	
-
-
-	public List<CuentaDeAhorro> getCuentas() {
-		return cuentas;
-	}
-
-	public void setCuentas(List<CuentaDeAhorro> cuentas) {
-		this.cuentas = cuentas;
-	}
-
-
-
-
 	public String getEstado() {
 		return estado;
 	}
-
 
 	public void setEstado(String estado) {
 		this.estado = estado;
 	}
 
+	public Cliente() {
+
+	} 
 
 	public String getCedula() {
 		return cedula;
@@ -170,8 +146,7 @@ public class Cliente implements Serializable {
 	}
 	public void setFechaNacimiento(Date fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
-	}
-
+	} 
 	
 	
 	

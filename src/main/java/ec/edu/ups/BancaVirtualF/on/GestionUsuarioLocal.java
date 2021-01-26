@@ -27,6 +27,8 @@ public interface GestionUsuarioLocal {
 	public void eliminarCliente(String cedulaCliente);
 	public void actualizarCliente(Cliente cliente);
 	public List<Cliente> listaClientes();
+	public void desbloquear(Cliente cliente);
+	public List<Cliente> listaClientesBloqueados();
 	public List<SesionCliente> obtenerSesionesCliente(String cedulaCliente);
 	public void actualizarCuentaDeAhorro(CuentaDeAhorro cuentaDeAhorro);
 	public List<Transaccion> listadeTransacciones(String cedula);

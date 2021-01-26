@@ -484,6 +484,12 @@ public class ClientesBean {
 	public void listarClientes() {
 		lstClientes = gestionUsuarios.listaClientes();
 	}
+	
+	public void desbloquearCuenta() {
+		cliente.setEstado("C");
+		gestionUsuarios.desbloquear(cliente);
+		
+	}
 
 	/**
 	 * Metodo que permite cambiar el formato a una fecha

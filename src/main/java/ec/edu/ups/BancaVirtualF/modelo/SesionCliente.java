@@ -3,9 +3,7 @@ package ec.edu.ups.BancaVirtualF.modelo;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,7 +18,6 @@ import javax.persistence.TemporalType;
 @Entity
 public class SesionCliente implements Serializable{ 
 	//Atributos de la clase
-
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY) 
 	private int codigoSesion;  
@@ -28,13 +25,12 @@ public class SesionCliente implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date fechaSesion; 
 	@OneToOne
-    @JoinColumn(name = "cedula_cliente")
-	private Cliente cliente;
+	@JoinColumn(name="cedula_cliente")
+	private Cliente cliente; 
 	
 	public int getCodigoSesion() {
 		return codigoSesion;
 	} 
-	
 	
 	
 	public void setCodigoSesion(int codigoSesion) {
