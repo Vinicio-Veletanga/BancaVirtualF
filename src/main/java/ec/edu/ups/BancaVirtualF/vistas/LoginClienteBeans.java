@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -120,14 +121,14 @@ public class LoginClienteBeans {
 	 * 
 	 * @return Nombre de Pagina a donde se va a redirigir la pagina
 	 */
-	
-	
 	public String validarCliente() {
 		List<Cliente> lstClis = gestionUsuarios.listaClientes();
 		System.out.println("PASO LA LISTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		for (Cliente c : lstClis) {
 			System.out.println("ENTROOOOOOOOOOOO EN EL FORRRRRR");
-			if (c.getUsuario().equalsIgnoreCase(usuario) && c.getClave().equalsIgnoreCase(contraseña) && c.getEstado().equalsIgnoreCase("C")) {
+			if (c.getUsuario().equalsIgnoreCase(usuario) && c.getClave().equalsIgnoreCase(contraseña) &&  c.getEstado().equalsIgnoreCase("C")) {
+
+				addMessage("OK", "Ingreso");
 				System.out.println("ENTROOOOOOOOOOOO EN EL IFFFFFFFFFFFFFF CORRECTO");
 				SesionCliente sesionCliente = new SesionCliente();
 				sesionCliente.setCliente(c);
@@ -149,6 +150,17 @@ public class LoginClienteBeans {
 				sesionCliente2.setFechaSesion(new Date());
 				sesionCliente2.setEstado("Incorrecto");
 				gestionUsuarios.guardarSesion(sesionCliente2);
+				addMessage("ERROR", "Ingreso Incorrecto");
+				return "InicioClientes";
+				
+			}else if(c.getUsuario().equalsIgnoreCase(usuario) && c.getClave().equalsIgnoreCase(contraseña) &&  c.getEstado().equalsIgnoreCase("B")) {
+				System.out.println("ENTROOOOOOOOOOOO EN EL IFFFFFFFFFFFFFF MAL");
+				SesionCliente sesionCliente2 = new SesionCliente();
+				sesionCliente2.setCliente(c);
+				sesionCliente2.setFechaSesion(new Date());
+				sesionCliente2.setEstado("Incorrecto");
+				gestionUsuarios.guardarSesion(sesionCliente2);
+				addMessage("AVISO", "Su cuenta se encuentra bloqueada");
 				return "InicioClientes";
 			}
 		}
@@ -156,8 +168,14 @@ public class LoginClienteBeans {
 	}
 
 	
+	//METODO DE MENSAJE PARA EL LOGIN DE USUARIO
+	public void addMessage(String summary, String detail) {
+		System.out.println(summary + "<<>>" + detail);
+		
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail));
+	}
 	
-	///METODO PARA DESLOGEARSE
 	public String logout() {
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 		return "InicioClientes?faces-redirect=true";
