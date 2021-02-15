@@ -36,7 +36,6 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.management.remote.NotificationResult;
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -65,8 +64,8 @@ public class GestionUsuarios implements GestionUsuarioLocal {
 	private TransaccionDAO transaccionDAO;
 	@Inject
 	private PolizaDAO polizaDAO;
-	private int contf = 0 ;
-
+	private int contf =0;
+   
 	public String generarNumeroDeCuenta() {
 		int numeroInicio = 0;
 		List<CuentaDeAhorro> listaCuentas = listaCuentaDeAhorros();
@@ -204,18 +203,25 @@ public class GestionUsuarios implements GestionUsuarioLocal {
 		List<Cliente> clientes = clienteDAO.getClientes();
 		return clientes;
 	}
+	
+	///SE LISTAR CLIENTES BLOQUEADOS
+	
+	public List<Cliente> listaClientesBloqueados() {
+		List<Cliente> clientes = clienteDAO.getClientesBloqueados();
+		return clientes;
+	}
 
 	public void guardarCuentaDeAhorros(CuentaDeAhorro c) {
 		Cliente cliente = clienteDAO.read(c.getCliente().getCedula());
 		if (cliente == null) {
 			Cliente cli = c.getCliente();
+			
 			String usuario = getUsuario(cli.getCedula(), cli.getNombre(), cli.getApellido());
 			String contraseña = getContraseña();
+			cli.setEstado("C");
 			cli.setUsuario(usuario);
 			cli.setClave(contraseña);
-			cli.setEstado("C");
 			c.setCliente(cli);
-			c.setEstadoCuenta("C");
 			String destinatario = cli.getCorreo(); // A quien le quieres escribir.
 
 			String asunto = "CREACION DE USUARIO";
@@ -238,47 +244,10 @@ public class GestionUsuarios implements GestionUsuarioLocal {
 				}
 			});
 			cuentaDeAhorroDAO.insert(c);
-		}else {
-			//SE CREA LA NUECA CUENTA 
-			Cliente cli = c.getCliente();
-			String usuario = getUsuario(cli.getCedula(), cli.getNombre(), cli.getApellido());
-			String contraseña = getContraseña();
-			cli.setUsuario(usuario);
-			cli.setClave(contraseña);
-			cli.setEstado("C");
-			c.setCliente(cli);
-
-			c.setEstadoCuenta("A");
-			String destinatario = cli.getCorreo(); // A quien le quieres escribir.
-
-			String asunto = "CREACION DE NUEVA CUENTA";
-			String cuerpo = "BANCA VIRTUAL                                             SISTEMA TRANSACCIONAL\n"
-					+ "-------------------------------------------------------------------------------\n"
-					+ "   Estimado(a): " + cli.getNombre().toUpperCase() + " " + cli.getApellido().toUpperCase() + "\n"
-					+ "-------------------------------------------------------------------------------\n"
-					+ "BANCA VIRTUAL le informa que se a generado nueva cuenta.       \n"
-					+ "                                                                               \n"
-					+ "                     Su nombre de usuario es : " + usuario + "                 \n"
-					+ "                   	Su clave de acceso es:   " + contraseña + "               \n"
-					+ "                     Fecha: " + fecha() + "                                    \n"
-					+ "                                                                               \n"
-					+ "-------------------------------------------------------------------------------\n";
-			CompletableFuture.runAsync(() -> {
-				try {
-					enviarCorreo(destinatario, asunto, cuerpo);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			});
-			cuentaDeAhorroDAO.insert(c);
-			
 		}
-		
-		
 
 	}
 
-	
 	
 	public CuentaDeAhorro buscarCuentaDeAhorro(String numeroCuentaDeAhorro) {
 		CuentaDeAhorro cuentaDeAhorro = cuentaDeAhorroDAO.read(numeroCuentaDeAhorro);
@@ -294,10 +263,7 @@ public class GestionUsuarios implements GestionUsuarioLocal {
 
 	
 	public void eliminarCuentaDeAhorro(String numeroCuentaDeAhorro) {
-		
-		
 		cuentaDeAhorroDAO.delete(numeroCuentaDeAhorro);
-		
 	}
 	public void actualizarCuentaDeAhorro(CuentaDeAhorro cuentaDeAhorro) {
 		cuentaDeAhorroDAO.update(cuentaDeAhorro);
@@ -308,40 +274,15 @@ public class GestionUsuarios implements GestionUsuarioLocal {
 		return clientes;
 	}
 
-	
-	
-	public List<CuentaDeAhorro> listarcuentac(String cedulaCliente) {
-		List<CuentaDeAhorro> clientes = cuentaDeAhorroDAO.listarcuentac(cedulaCliente);
-		return clientes;
-	}
-
 	// SE VALIDA EL GUARDAR SESSION LOGIN VALIDANDO LOS CAMPOS
-	
-	/**
-	 * Metodo que permite buscar una Sesion
-	 * 
-	 * @param codigoSesionCliente Codigo de la sesion que se desea buscar
-	 * @return Sesion obtenida de la busqueda
-	 */
-
-	public SesionCliente buscarSesionCliente(int codigoSesionCliente) {
-		return sesionClienteDAO.read(codigoSesionCliente);
-	}
-
-	public List<SesionCliente> obtenerSesionesCliente(String cedulaCliente) {
-		try {
-			return sesionClienteDAO.obtenerSesionCliente(cedulaCliente);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
 	public void guardarSesion(SesionCliente sesionCliente) {
 		Cliente cli = sesionCliente.getCliente();
 		String destinatario = cli.getCorreo();
-		if (sesionCliente.getEstado().equalsIgnoreCase("Incorrecto")) {
-			
+		if (sesionCliente.getEstado().equalsIgnoreCase("Incorrecto") && cli.getEstado().equalsIgnoreCase("C")) {
+
+			contf = contf + 1;
 			if (contf < 3) {
+				
 				// A quien le quieres escribir.
 
 				String asunto = "INICIO DE SESION FALLIDA";
@@ -361,21 +302,22 @@ public class GestionUsuarios implements GestionUsuarioLocal {
 					}
 				});
 				
-				contf = contf + 1;
 				
 			}else if(contf == 3) {
-				String asunto = "INICIO DE SESION BLOQUEADA";
-				String cuerpo = "BANCA VIRTUAL                                             SISTEMA TRANSACCIONAL\n"
+				String asunto1 = "AVISO DE BLOQUEO DE CUENTA";
+				String cuerpo1 = "BANCA VIRTUAL                                             SISTEMA TRANSACCIONAL\n"
 						+ "-------------------------------------------------------------------------------\n"
 						+ "        Estimado(a): " + cli.getNombre().toUpperCase() + " " + cli.getApellido().toUpperCase()
 						+ "\n" + "-------------------------------------------------------------------------------\n"
-						+ "BANCA VIRTUAL le informa que el acceso  se encuetra bloqueado para este usuario..\n"
+						+ "BANCA VIRTUAL le informa que el el la cuenta del cliente se ha bloqueado, solicitar recuperar cuenta o acercarse   ventanilla.\n"
 						+ "  		Fecha: " + obtenerFecha(sesionCliente.getFechaSesion()) + "\n"
 						+ "                                                                               \n"
 						+ "-------------------------------------------------------------------------------\n";
 				CompletableFuture.runAsync(() -> {
 					try {
-						enviarCorreo(destinatario, asunto, cuerpo);
+						enviarCorreo(destinatario, asunto1, cuerpo1);
+						cli.setEstado("B");
+						clienteDAO.update(cli);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -389,7 +331,6 @@ public class GestionUsuarios implements GestionUsuarioLocal {
 		} else if (sesionCliente.getEstado().equalsIgnoreCase("Correcto") && cli.getEstado().equalsIgnoreCase("C")) {
 			// A quien le quieres escribir.
 
-			sesionClienteDAO.insert(sesionCliente);
 			contf = 0;
 			String asunto = "INICIO DE SESION CORRECTA";
 			String cuerpo = "BANCA VIRTUAL                                             SISTEMA TRANSACCIONAL\n"
@@ -409,18 +350,20 @@ public class GestionUsuarios implements GestionUsuarioLocal {
 				}
 			});
 			
-		}else if ( cli.getEstado().equalsIgnoreCase("B"))  {
+		}
+		if (sesionCliente.getEstado().equalsIgnoreCase("Correcto") && cli.getEstado().equalsIgnoreCase("B"))  {
 			//SE EMVIA UN MENSAJE PARA DECIR QUE EL  CLIENTE TIENE LA CUENTA BLOQUEADA
 			contf = 0;
-			String asunto = "SESION BLOQUEADA";
+			String asunto = "SU CUENTA SE ENCUENTRA BLOQUEADA";
 			String cuerpo = "BANCA VIRTUAL                                             SISTEMA TRANSACCIONAL\n"
 					+ "-------------------------------------------------------------------------------\n"
 					+ "        Estimado(a): " + cli.getNombre().toUpperCase() + " " + cli.getApellido().toUpperCase()
 					+ "\n" + "-------------------------------------------------------------------------------\n"
-					+ "BANCA VIRTUAL le informa que el acceso a su cuenta ha sido fallida en la fecha.\n"
+					+ "BANCA VIRTUAL le informa que su cuenta se encuetra bloueada, porfavor acercarse a ventanilla.\n"
 					+ "  		Fecha: " + obtenerFecha(sesionCliente.getFechaSesion()) + "\n"
 					+ "                                                                               \n"
 					+ "-------------------------------------------------------------------------------\n";
+
 			CompletableFuture.runAsync(() -> {
 				try {
 					enviarCorreo(destinatario, asunto, cuerpo);
@@ -430,9 +373,28 @@ public class GestionUsuarios implements GestionUsuarioLocal {
 			});
 		}
 
+		sesionClienteDAO.insert(sesionCliente);
 
 	}
+	/**
+	 * Metodo que permite buscar una Sesion
+	 * 
+	 * @param codigoSesionCliente Codigo de la sesion que se desea buscar
+	 * @return Sesion obtenida de la busqueda
+	 */
 
+	public SesionCliente buscarSesionCliente(int codigoSesionCliente) {
+		return sesionClienteDAO.read(codigoSesionCliente);
+	}
+
+	public List<SesionCliente> obtenerSesionesCliente(String cedulaCliente) {
+		try {
+			return sesionClienteDAO.obtenerSesionCliente(cedulaCliente);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	public boolean validadorDeCedula(String cedula) throws Exception {
 		System.out.println(cedula + "    En Metodo ");
@@ -553,7 +515,7 @@ public class GestionUsuarios implements GestionUsuarioLocal {
 				clp.setSaldoCuentaDeAhorro(nvmonto);
 //				actualizarCuentaDeAhorro(clp);
 				Transaccion t = new Transaccion();
-				t.setCuentadeahorro(clp);
+				t.setCliente(clp.getCliente());
 				t.setMonto(monto);
 				t.setFecha(new Date());
 				t.setTipo("deposito");
@@ -571,7 +533,7 @@ public class GestionUsuarios implements GestionUsuarioLocal {
 				clp.setSaldoCuentaDeAhorro(nvmonto2);
 //				actualizarCuentaDeAhorro(clp);
 				Transaccion t2 = new Transaccion();
-				t2.setCuentadeahorro(clp);
+				t2.setCliente(clp.getCliente());
 				t2.setMonto(monto);
 				t2.setFecha(new Date());
 				t2.setTipo("retiro");
@@ -649,6 +611,15 @@ public class GestionUsuarios implements GestionUsuarioLocal {
 	public List<Poliza> getListasPolizas() {
 		// TODO Auto-generated method stub
 		return polizaDAO.getPolizas();
+	}
+
+	@Override
+	public void desbloquear(Cliente cliente) {
+		Cliente cli = cliente;
+		cli.setEstado("C");
+		clienteDAO.update(cli);
+		// TODO Auto-generated method stub
+		
 	}
 
 	

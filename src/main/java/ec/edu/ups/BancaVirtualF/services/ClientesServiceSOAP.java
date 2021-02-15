@@ -1,14 +1,43 @@
-/**
- * ClientesServiceSOAP.java
- *
- * This file was auto-generated from WSDL
- * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
- */
-
 package ec.edu.ups.BancaVirtualF.services;
 
-public interface ClientesServiceSOAP extends java.rmi.Remote {
-   /* public ec.edu.ups.BancaVirtualF tra(java.lang.String arg0) throws java.rmi.RemoteException;*/
-    public java.lang.String saludar() throws java.rmi.RemoteException;
-    public java.lang.String transaccionservicio(java.lang.String arg0, double arg1, java.lang.String arg2) throws java.rmi.RemoteException;
+import ec.edu.ups.BancaVirtualF.modelo.Cliente;
+import ec.edu.ups.BancaVirtualF.modelo.CuentaDeAhorro;
+import ec.edu.ups.BancaVirtualF.modelo.Transaccion;
+import ec.edu.ups.BancaVirtualF.on.GestionUsuarioLocal;
+import ec.edu.ups.BancaVirtualF.on.Respuesta;
+
+import java.util.Date;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.jws.WebMethod;
+import javax.jws.WebService;
+
+@WebService
+public class ClientesServiceSOAP {
+
+	@Inject
+	private GestionUsuarioLocal on;
+
+	@WebMethod
+	public String saludar(String nombre) {
+		return nombre;
+	}
+
+	@WebMethod
+	public String transaccionservicio(String cuenta, double monto, String tipoTransaccion) {
+		try {
+			on.realizarTransaccion(cuenta, monto, tipoTransaccion);
+			return "Ok";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "ERROR";
+		}
+
+	}
+	
+	@WebMethod
+	public List<Transaccion> Tra(String cedula) {
+		return on.listadeTransacciones(cedula);
+	}
 }

@@ -385,6 +385,71 @@ public class CajeroBean {
 		
 		return " ";
 	}
+
+	/**
+	 * Metodo para regitrar la transaccion
+	 * 
+	 * @return Me devuelve a la Pagina del cajero para realizar una nueva
+	 *         transaccion
+	 */
+	public String registrar() {
+		CuentaDeAhorro clp = clienteON.buscarCuentaDeAhorroCliente(cliente.getCedula());
+		if (tipoTransaccion.equalsIgnoreCase("deposito")) {
+			Double nvmonto = clp.getSaldoCuentaDeAhorro() + monto;
+			clp.setSaldoCuentaDeAhorro(nvmonto);
+			clienteON.actualizarCuentaDeAhorro(clp);
+			Transaccion t = new Transaccion();
+			t.setCliente(clp.getCliente());
+			t.setMonto(monto);
+			t.setFecha(new Date());
+			t.setTipo("deposito");
+			t.setSaldoCuenta(nvmonto);
+			try {
+				clienteON.guardarTransaccion(t);
+				addMessage("Confirmacion", "Transaccion Guardada");
+				editable = false;
+				listaTra = new ArrayList<Transaccion>();
+				
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.getMessage();
+			}
+			try {
+				FacesContext contex = FacesContext.getCurrentInstance();
+				contex.getExternalContext().redirect("IndexCajero.xhtml");
+			} catch (Exception e) {
+			}
+		} else if (tipoTransaccion.equalsIgnoreCase("retiro") && monto <= clp.getSaldoCuentaDeAhorro()) {
+			Double nvmonto2 = clp.getSaldoCuentaDeAhorro() - monto;
+			clp.setSaldoCuentaDeAhorro(nvmonto2);
+			clienteON.actualizarCuentaDeAhorro(clp);
+			Transaccion t2 = new Transaccion();
+			t2.setCliente(clp.getCliente());
+			t2.setMonto(monto);
+			t2.setFecha(new Date());
+			t2.setTipo("retiro");
+			t2.setSaldoCuenta(nvmonto2);
+			try {
+				
+				clienteON.guardarTransaccion(t2);
+				addMessage("Confirmacion", "Transaccion Guardada");
+				editable = false;
+				listaTra = new ArrayList<Transaccion>();
+				
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.getMessage();
+			}
+			try {
+				
+				FacesContext contex = FacesContext.getCurrentInstance();
+				contex.getExternalContext().redirect("IndexCajero.xhtml");
+			} catch (Exception e) {
+			}
+		}
+		return "IndexCajero";
+	}
+
 	/**
 	 * Metodo para Cargar las Transacciones
 	 * 
@@ -447,72 +512,6 @@ public class CajeroBean {
 	    	addMessage(event.getComponent().getId() + " moved", "Left: " + event.getLeft() + ", Top: " + event.getTop());
 	    }
 
-
-		/**
-		 * Metodo para regitrar la transaccion
-		 * 
-		 * @return Me devuelve a la Pagina del cajero para realizar una nueva
-		 *         transaccion
-		 */
-		public String registrar() {
-			CuentaDeAhorro clp = clienteON.buscarCuentaDeAhorroCliente(cliente.getCedula());
-			if (tipoTransaccion.equalsIgnoreCase("deposito")) {
-				Double nvmonto = clp.getSaldoCuentaDeAhorro() + monto;
-				clp.setSaldoCuentaDeAhorro(nvmonto);
-				clienteON.actualizarCuentaDeAhorro(clp);
-				Transaccion t = new Transaccion();
-				t.setCuentadeahorro(clp);;
-				t.setMonto(monto);
-				t.setFecha(new Date());
-				t.setTipo("deposito");
-				t.setSaldoCuenta(nvmonto);
-				try {
-					clienteON.guardarTransaccion(t);
-					addMessage("Confirmacion", "Transaccion Guardada");
-					editable = false;
-					listaTra = new ArrayList<Transaccion>();
-					
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.getMessage();
-				}
-				try {
-					FacesContext contex = FacesContext.getCurrentInstance();
-					contex.getExternalContext().redirect("IndexCajero.xhtml");
-				} catch (Exception e) {
-				}
-			} else if (tipoTransaccion.equalsIgnoreCase("retiro") && monto <= clp.getSaldoCuentaDeAhorro()) {
-				Double nvmonto2 = clp.getSaldoCuentaDeAhorro() - monto;
-				clp.setSaldoCuentaDeAhorro(nvmonto2);
-				clienteON.actualizarCuentaDeAhorro(clp);
-				Transaccion t2 = new Transaccion();
-				t2.setCuentadeahorro(clp);
-				t2.setMonto(monto);
-				t2.setFecha(new Date());
-				t2.setTipo("retiro");
-				t2.setSaldoCuenta(nvmonto2);
-				try {
-					
-					clienteON.guardarTransaccion(t2);
-					addMessage("Confirmacion", "Transaccion Guardada");
-					editable = false;
-					listaTra = new ArrayList<Transaccion>();
-					
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.getMessage();
-				}
-				try {
-					
-					FacesContext contex = FacesContext.getCurrentInstance();
-					contex.getExternalContext().redirect("IndexCajero.xhtml");
-				} catch (Exception e) {
-				}
-			}
-			return "IndexCajero";
-		}
-
-
 	    
 
 		public String agregarCuenta() {
@@ -523,11 +522,11 @@ public class CajeroBean {
 				clp.setSaldoCuentaDeAhorro(nvmonto);
 				clp.setCliente(clp.getCliente());
 				clp.setFechaDeRegistro(new Date());
-				System.out.println("SE EJECUTA Y SE VE EL CLIENTE > > "+clp.toString());
 				clienteON.guardarCuentaDeAhorros(clp);
 				
 				Transaccion t = new Transaccion();
-				t.setCuentadeahorro(clp);
+				
+				t.setCliente(clp.getCliente());
 				t.setMonto(monto);
 				t.setFecha(new Date());
 				t.setTipo("deposito");
