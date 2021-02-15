@@ -48,22 +48,22 @@
 											<label>Ingrese la tasa en %</label>
 											<h:inputText value="#{polizasBean.poliza.tasaInteres}"
 												maxlength="10" class="form-control" required="true">
-												<f:ajax event="blur" render="valueError"  />
+												<f:ajax event="blur" render="valueError" />
 											</h:inputText>
 										</div>
 										<p:commandButton value="Guardar Poliza"
 											action="#{polizasBean.guardarPoliza}" update="message"
-											class="btn btn-success btn-lg">
+											class="btn btn-success btn-lg" onsuccess="location.reload();">
 											<p:confirm header="Confirmacion"
 												message="¿Desea guardar la Poliza"
 												icon="pi pi-exclamation-triangle" />
 										</p:commandButton>
-										
-												
+
+
 										<p:confirmDialog global="true" showEffect="fade"
 											hideEffect="fade">
 											<p:commandButton value="SI" type="button"
-												styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+												styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
 											<p:commandButton value="NO" type="button"
 												styleClass="ui-confirmdialog-no" icon="pi pi-times" />
 										</p:confirmDialog>
@@ -74,8 +74,8 @@
 										<h2>Polizas Parametrizadas</h2>
 										<div class="panel-body">
 											<div class="table-responsive">
-												<h:dataTable value="#{polizasBean.getListasPolizas()}"
-													var="cliente" class="table">
+												<h:dataTable value="#{polizasBean.listasPolizas}"
+													var="poliza" class="table">
 													<h:column>
 														<f:facet name="header">Dias minimo</f:facet>
 								#{poliza.diasMinimo}
@@ -88,7 +88,7 @@
 														<f:facet name="header">Tasa de Interes %</f:facet>
 								#{poliza.tasaInteres}
 							</h:column>
-													
+
 												</h:dataTable>
 											</div>
 										</div>
