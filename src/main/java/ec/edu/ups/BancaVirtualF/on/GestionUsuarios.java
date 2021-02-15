@@ -53,6 +53,8 @@ public class GestionUsuarios implements GestionUsuarioLocal {
 	@Inject
 	private ClienteDAO clienteDAO;
 	@Inject
+	private SolicitudPolizaDAO solicitudPolizaDAO;
+	@Inject
 	private SesionClienteDAO sesionClienteDAO;
 	@Inject
 	private TransferenciaLocalDAO transferenciaLocalDAO;
@@ -460,6 +462,7 @@ public class GestionUsuarios implements GestionUsuarioLocal {
 		return empleadoDAO.obtener();
 	}
 
+	
 	
 	public Empleado usuario(String usuario, String contra) throws Exception {
 		try {
