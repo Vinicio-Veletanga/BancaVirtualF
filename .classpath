@@ -41,8 +41,13 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
 		<attributes>
+			<attribute name="module" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/Gabriel Leonardo Chu/Documents/eclipse-workspace/dependencias/itextpdf-5.5.9.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Gabriel Leonardo Chu/Documents/eclipse-workspace/dependencias/javax.jws_2.0.0.v201005080400.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Gabriel Leonardo Chu/Documents/eclipse-workspace/dependencias/javax.mail_1.4.0.v201005080615.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Gabriel Leonardo Chu/Documents/eclipse-workspace/dependencias/javax.ws.rs-api-2.0-javadoc.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
