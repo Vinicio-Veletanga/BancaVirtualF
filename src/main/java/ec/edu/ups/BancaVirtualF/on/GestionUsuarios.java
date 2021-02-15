@@ -53,6 +53,8 @@ public class GestionUsuarios implements GestionUsuarioLocal {
 	@Inject
 	private ClienteDAO clienteDAO;
 	@Inject
+	private SolicitudPolizaDAO solicitudPolizaDAO;
+	@Inject
 	private SesionClienteDAO sesionClienteDAO;
 	@Inject
 	private TransferenciaLocalDAO transferenciaLocalDAO;
