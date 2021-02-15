@@ -461,6 +461,7 @@ public class GestionUsuarios implements GestionUsuarioLocal {
 	}
 
 	
+	
 	public Empleado usuario(String usuario, String contra) throws Exception {
 		try {
 			Empleado em = empleadoDAO.obtenerUsuario(usuario, contra);

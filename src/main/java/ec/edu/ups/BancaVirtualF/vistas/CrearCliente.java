@@ -35,12 +35,14 @@ public class CrearCliente {
 	@Inject
 	private GestionUsuarioLocal gestionUsuarios;
 	private Cliente cliente;
+	private Cliente clienteSelecionado;
 	private String numeroCuenta;
 	private String saldoCuenta;
 	private List<Cliente> lstClientes;
 	private Part arCedula;
 	private Part arPlanillaServicios;
 	private Part arRolDePagos;
+	private String idcliente;
 	private CuentaDeAhorro cuentaDeAhorro;
 private String tipoCuenta;
 	
@@ -53,6 +55,15 @@ private String tipoCuenta;
 	}
 
 	
+	
+
+	public Cliente getClienteSelecionado() {
+		return clienteSelecionado;
+	}
+
+	public void setClienteSelecionado(Cliente clienteSelecionado) {
+		this.clienteSelecionado = clienteSelecionado;
+	}
 
 	/**
 	 * Metodo que permite inicializar atributos y metodos al momento que se llama a
@@ -61,6 +72,7 @@ private String tipoCuenta;
 	@PostConstruct
 	private void iniciar() {
 		cliente = new Cliente();
+		clienteSelecionado = new Cliente();
 		cuentaDeAhorro = new CuentaDeAhorro();
 //		solicitudDeCredito = new SolicitudDeCredito();
 	}
@@ -69,6 +81,8 @@ private String tipoCuenta;
 		return gestionUsuarios;
 	}
 
+	
+	
 	public void setGestionUsuarios(GestionUsuarioLocal gestionUsuarios) {
 		this.gestionUsuarios = gestionUsuarios;
 	}
@@ -119,6 +133,15 @@ private String tipoCuenta;
 	public String getNumeroCuenta() {
 		return numeroCuenta;
 	}
+	
+
+	public String getIdcliente() {
+		return idcliente;
+	}
+
+	public void setIdcliente(String idcliente) {
+		this.idcliente = idcliente;
+	}
 
 	/**
 	 * Metodo que permite asignar un valor al atributo de tipo String numeroCuenta
@@ -150,6 +173,7 @@ private String tipoCuenta;
 	public void setCuentaDeAhorro(CuentaDeAhorro cuentaDeAhorro) {
 		this.cuentaDeAhorro = cuentaDeAhorro;
 	}
+	 
 
 //	/** 
 //	 * Metodo que permte obtener el atrbuto de tipo List lstClientes de la clase
@@ -286,6 +310,16 @@ private String tipoCuenta;
 		return null;
 	}
 
+	
+	public String desbloquearCliente() {
+		try {
+			gestionUsuarios.desbloquear(cliente);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 	public String validarCedula() {
 		if (cliente.getCedula() != null) {
 			Cliente cli = gestionUsuarios.buscarCliente(cliente.getCedula());
@@ -366,6 +400,12 @@ private String tipoCuenta;
 	
 	
 	
+	public void selecionarclienteb(Cliente clienteSelecionado) {
+		
+		System.out.println("SE DEBE DE RETORNAR VISTA LISTA BLOQUEOS CON ACTUALES B");
+		clienteSelecionado.setEstado("C");
+		gestionUsuarios.desbloquear(clienteSelecionado);
+	}
 	
 	
 	public List<Cliente> obtenerClientesBloqueados() {

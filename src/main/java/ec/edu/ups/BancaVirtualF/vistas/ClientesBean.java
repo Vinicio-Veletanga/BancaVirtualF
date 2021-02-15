@@ -57,14 +57,12 @@ public class ClientesBean {
 	private InputStream arRolDePagos;
 	private String mensajeGarante;
 	private double ingresos;
-	private double egresos; 
-	private boolean editable; 
+	private double egresos;
+	private boolean editable;
 	private int codigoCredito;
 	private CuentaDeAhorro cuentaDeAhorro;
 	private CuentaDeAhorro buscarCuentaDeAhorro;
-	
-	
-	
+	private Cliente idcliente;
 
 	/**
 	 * Metodo que permite inicializar atributos y metodos al momento que se llama a
@@ -72,12 +70,13 @@ public class ClientesBean {
 	 */
 	@PostConstruct
 	private void iniciar() {
-		listarClientes();   
+		listarClientes();
 		tipoTransaccion = "Todos";
 		System.out.println(lstClientes.size());
 		cuentaDeAhorro = new CuentaDeAhorro();
 		cliente = new Cliente();
-		garante = new Cliente();   
+		garante = new Cliente();
+		idcliente = new Cliente();
 //		lstCreditosAprobados = new ArrayList<Credito>();  
 //		solicitudDeCredito = new SolicitudDeCredito();
 	}
@@ -126,6 +125,16 @@ public class ClientesBean {
 	 */
 	public String getNumeroCuenta() {
 		return numeroCuenta;
+	}
+	
+	
+
+	public Cliente getIdcliente() {
+		return idcliente;
+	}
+
+	public void setIdcliente(Cliente idcliente) {
+		this.idcliente = idcliente;
 	}
 
 	/**
@@ -184,19 +193,21 @@ public class ClientesBean {
 	public String getCedulaParametro() {
 		return cedulaParametro;
 	}
-	
-	/** 
-	 * Metodo que permite asignar un valor al atributo fechasInvalidas de la
-	 * clase
+
+	/**
+	 * Metodo que permite asignar un valor al atributo fechasInvalidas de la clase
+	 * 
 	 * @return
 	 */
 	public String getFechasInvalidas() {
 		return fechasInvalidas;
 	}
-	/** 
-	 * Metodo que permite asignar un valor al atributo fechasInvalidas de la
-	 * clase
-	 * @param fechasInvalidas Variable asignada al atributo fechasInvalidas de la clase
+
+	/**
+	 * Metodo que permite asignar un valor al atributo fechasInvalidas de la clase
+	 * 
+	 * @param fechasInvalidas Variable asignada al atributo fechasInvalidas de la
+	 *                        clase
 	 */
 	public void setFechasInvalidas(String fechasInvalidas) {
 		this.fechasInvalidas = fechasInvalidas;
@@ -215,9 +226,11 @@ public class ClientesBean {
 		if (cedulaParametro != null) {
 			try {
 				buscarCuentaDeAhorro = gestionUsuarios.buscarCuentaDeAhorroCliente(cedulaParametro);
-				/*List<Transaccion> lista = gestionUsuarios.listadeTransacciones(cedulaParametro);
-				transaccion = lista.get(lista.size() - 1);
-				ultimosDias();*/  
+				/*
+				 * List<Transaccion> lista =
+				 * gestionUsuarios.listadeTransacciones(cedulaParametro); transaccion =
+				 * lista.get(lista.size() - 1); ultimosDias();
+				 */
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -261,7 +274,7 @@ public class ClientesBean {
 	public void setLstClientes(List<Cliente> lstClientes) {
 		this.lstClientes = lstClientes;
 	}
-	
+
 //
 	/**
 	 * Metodo que permite obtener el atributo de tipo lista lstSesionesClientes de
@@ -283,10 +296,11 @@ public class ClientesBean {
 	public void setLstSesionesCliente(List<SesionCliente> lstSesionesCliente) {
 		this.lstSesionesCliente = lstSesionesCliente;
 	}
-	
-	/** 
-	 *  Metodo que permite obtener el atributo de tipo lista lstTransacciones de
-	 * la clase
+
+	/**
+	 * Metodo que permite obtener el atributo de tipo lista lstTransacciones de la
+	 * clase
+	 * 
 	 * @return Atributo de tipo lista lstTransacciones de la clase
 	 */
 //	public List<Transaccion> getLstTransacciones() {
@@ -300,69 +314,88 @@ public class ClientesBean {
 //	public void setLstTransacciones(List<Transaccion> lstTransacciones) {
 //		this.lstTransacciones = lstTransacciones;
 //	}
-	
-	
-	/** 
+
+	/**
 	 * Metodo que permite obtener el atributo de tipo date fechaInicio de la clase
-	 * @return  Atributo de tipo date fechaInicio de la clase
+	 * 
+	 * @return Atributo de tipo date fechaInicio de la clase
 	 */
 	public Date getFechaInicio() {
 		return fechaInicio;
 	}
-	
-	/** 
-	 * Metodo que permite asignar un valor al atributo de tipo date fechainicio de la clase
-	 * @param fechaInicio Variable asignada al atributo de tipo date fechaInicio de la clase
+
+	/**
+	 * Metodo que permite asignar un valor al atributo de tipo date fechainicio de
+	 * la clase
+	 * 
+	 * @param fechaInicio Variable asignada al atributo de tipo date fechaInicio de
+	 *                    la clase
 	 */
 	public void setFechaInicio(Date fechaInicio) {
 		this.fechaInicio = fechaInicio;
 	}
-	/** 
+
+	/**
 	 * Metodo que permite obtener el atributo de tipo date fechaFinal de la clase
+	 * 
 	 * @return Atributo de tipo date fechaFinal de la clase
 	 */
 	public Date getFechaFinal() {
 		return fechaFinal;
 	}
-	/** 
-	 * Metodo que permite asignar un valor al atributo de tipo date fechaFinal de la clase
-	 * @param fechaFinal Variable asignada al atributo de tipo date fechaFinal de la clase
+
+	/**
+	 * Metodo que permite asignar un valor al atributo de tipo date fechaFinal de la
+	 * clase
+	 * 
+	 * @param fechaFinal Variable asignada al atributo de tipo date fechaFinal de la
+	 *                   clase
 	 */
 	public void setFechaFinal(Date fechaFinal) {
 		this.fechaFinal = fechaFinal;
 	}
-	/** 
-	 * Metodo que permite obtener el atributo de tipo String tipoTransaccion de la clase
+
+	/**
+	 * Metodo que permite obtener el atributo de tipo String tipoTransaccion de la
+	 * clase
+	 * 
 	 * @return Atributo de tipo String tipoTransaccion de la clase
 	 */
 	public String getTipoTransaccion() {
 		return tipoTransaccion;
 	}
-	/** 
-	 * Metodo que permite asignar un valor al atributo de tipo String tipoTransaccion de la clase
-	 * @param tipoTransaccion Variable asignada al atributo de tipo String tipoTransaccion de la clase
+
+	/**
+	 * Metodo que permite asignar un valor al atributo de tipo String
+	 * tipoTransaccion de la clase
+	 * 
+	 * @param tipoTransaccion Variable asignada al atributo de tipo String
+	 *                        tipoTransaccion de la clase
 	 */
 	public void setTipoTransaccion(String tipoTransaccion) {
 		this.tipoTransaccion = tipoTransaccion;
 	}
-	
-	
-	/** 
+
+	/**
 	 * Metodo que permite obtener el atributo de tipo boolean editable de la clase
+	 * 
 	 * @return Atributo de tipo boolean editable de la clase
 	 */
 	public boolean isEditable() {
 		return editable;
 	}
-	
-	/** 
-	 * Metodo que permite asignar un valor al atributo de tipo boolean editable de la clase
-	 * @param editable Variable asignada al atributo de tipo boolean editable de la clase
+
+	/**
+	 * Metodo que permite asignar un valor al atributo de tipo boolean editable de
+	 * la clase
+	 * 
+	 * @param editable Variable asignada al atributo de tipo boolean editable de la
+	 *                 clase
 	 */
 	public void setEditable(boolean editable) {
 		this.editable = editable;
-	} 
-	
+	}
+
 	/**
 	 * Metodo que permite crear un cliente
 	 * 
@@ -377,30 +410,42 @@ public class ClientesBean {
 		}
 		return null;
 	}
-	/** 
+
+	/**
 	 * Metodo que permite obtener el atributo de tipo double ingresos de la clase
+	 * 
 	 * @return Atributo de tipo double ingresos de la clase
 	 */
 	public double getIngresos() {
 		return ingresos;
 	}
-	/** 
-	 * Metodo que permite asignar un valor al atributo de tipo double ingresos de la clase
-	 * @param ingresos Variable asignada al atributo de tipo double ingresos de la clase
+
+	/**
+	 * Metodo que permite asignar un valor al atributo de tipo double ingresos de la
+	 * clase
+	 * 
+	 * @param ingresos Variable asignada al atributo de tipo double ingresos de la
+	 *                 clase
 	 */
 	public void setIngresos(double ingresos) {
 		this.ingresos = ingresos;
 	}
-	/** 
+
+	/**
 	 * Metodo que permite obtener el atributo de tipo double egresos de la clase
+	 * 
 	 * @return Atributo de tipo double egresos de la clase
 	 */
 	public double getEgresos() {
 		return egresos;
 	}
-	/** 
-	 * Metodo que permite asignar un valor al atributo de tipo double egresos de la clase
-	 * @param egresos Variable asignada al atributo de tipo double egresos de la clase
+
+	/**
+	 * Metodo que permite asignar un valor al atributo de tipo double egresos de la
+	 * clase
+	 * 
+	 * @param egresos Variable asignada al atributo de tipo double egresos de la
+	 *                clase
 	 */
 	public void setEgresos(double egresos) {
 		this.egresos = egresos;
@@ -443,21 +488,26 @@ public class ClientesBean {
 		this.numeroCuenta = gestionUsuarios.generarNumeroDeCuenta();
 		return numeroCuenta;
 	}
-	/** 
+
+	/**
 	 * Metodo que permite obtener el atributo de tipo String saldoCuenta de la clase
+	 * 
 	 * @return Atributo de tipo String saldoCuenta de la clase
 	 */
 	public String getSaldoCuenta() {
 		return saldoCuenta;
 	}
-	/** 
-	 * Metodo que permite asignar un valor al atributo de tipo String saldoCuenta de la clase
-	 * @param saldoCuenta Variable asignada al atributo de tipo string saldoCuenta de la clase
+
+	/**
+	 * Metodo que permite asignar un valor al atributo de tipo String saldoCuenta de
+	 * la clase
+	 * 
+	 * @param saldoCuenta Variable asignada al atributo de tipo string saldoCuenta
+	 *                    de la clase
 	 */
 	public void setSaldoCuenta(String saldoCuenta) {
 		this.saldoCuenta = saldoCuenta;
 	}
-
 
 	public void handleClose(CloseEvent event) {
 		addMessage(event.getComponent().getId() + " closed", "So you don't like nature?");
@@ -467,10 +517,14 @@ public class ClientesBean {
 		event.setTop(500);
 		addMessage(event.getComponent().getId() + " moved", "Left: " + event.getLeft() + ", Top: " + event.getTop());
 	}
-	/** 
-	 * Metodo que permite asignar un valor para poder enviar un mensaje de confirmacion 
+
+	/**
+	 * Metodo que permite asignar un valor para poder enviar un mensaje de
+	 * confirmacion
+	 * 
 	 * @param summary Variable tipo String la cual sera el titulo de la confirmacion
-	 * @param detail Varibale tipo String en donde se almacenara la descripcion del mensaje
+	 * @param detail  Varibale tipo String en donde se almacenara la descripcion del
+	 *                mensaje
 	 */
 	public void addMessage(String summary, String detail) {
 		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary, detail);
@@ -483,12 +537,6 @@ public class ClientesBean {
 	 */
 	public void listarClientes() {
 		lstClientes = gestionUsuarios.listaClientes();
-	}
-	
-	public void desbloquearCuenta() {
-		cliente.setEstado("C");
-		gestionUsuarios.desbloquear(cliente);
-		
 	}
 
 	/**
@@ -516,17 +564,20 @@ public class ClientesBean {
 		}
 		return null;
 	}
-	
-	/** 
+
+	/**
 	 * Metodo que me permite obtener un mensaje
+	 * 
 	 * @return Variable de tipo String que me devuelve un mensaje en especifico
 	 */
 	public String consultarTransacciones() {
 		return "ConsultaTransacciones";
 	}
-	
-	/** 
-	 * Metodo qe me permite validar entre fechas, y obtener una lista de transacciones entre dichas fechas
+
+	/**
+	 * Metodo qe me permite validar entre fechas, y obtener una lista de
+	 * transacciones entre dichas fechas
+	 * 
 	 * @throws Exception
 	 */
 //	public void validarFechas() throws Exception {
@@ -549,8 +600,8 @@ public class ClientesBean {
 //			System.out.println(new Date());
 //		}
 //	}
-	
-	/** 
+
+	/**
 	 * Metodo que me devuelve el tipo de transaccion que se esta utilizando
 	 */
 	public void obtenerTransaccionesInicioFinal() {
@@ -562,8 +613,9 @@ public class ClientesBean {
 		System.out.println("Este es el tipo de transaccion : " + tipoTransaccion);
 
 	}
-	/** 
-	 * Metodo que permite obtener una lista de transacciones entre una fecha de inicio y una fecha final
+	/**
+	 * Metodo que permite obtener una lista de transacciones entre una fecha de
+	 * inicio y una fecha final
 	 */
 //	public void ultimosDias() {
 //		Calendar c = Calendar.getInstance();
@@ -578,10 +630,11 @@ public class ClientesBean {
 //		System.out.println(lstTransacciones.size());
 //		System.out.println(cedulaParametro);
 //	}
-	
-	/** 
-	 * Metodo que permite obtener las transacciones entre una fechas, las cuales se obtienen  
-	 * dependiendo el tipo de transaccion que se requiera
+
+	/**
+	 * Metodo que permite obtener las transacciones entre una fechas, las cuales se
+	 * obtienen dependiendo el tipo de transaccion que se requiera
+	 * 
 	 * @throws Exception
 	 */
 //	public void validarFechas2() throws Exception {
@@ -629,10 +682,13 @@ public class ClientesBean {
 //
 //		System.out.println("LISTA DE TRANSACCION SIZE :   " + lstTransacciones.size());
 //	}
-	
-	/** 
-	 * Metodo que permite verificar que la fecha de inicio no sea mayor a la fecha final
-	 * @return Variable de tipo String, el cual me dice si la fecha de inicio es mayor
+
+	/**
+	 * Metodo que permite verificar que la fecha de inicio no sea mayor a la fecha
+	 * final
+	 * 
+	 * @return Variable de tipo String, el cual me dice si la fecha de inicio es
+	 *         mayor
 	 */
 	public String errorFechas() {
 		/*
@@ -655,9 +711,11 @@ public class ClientesBean {
 		}
 		return null;
 	}
-	
-	/** 
-	 * Metodo que permite guardar una solicitud de credito con sus respectivos atributos
+
+	/**
+	 * Metodo que permite guardar una solicitud de credito con sus respectivos
+	 * atributos
+	 * 
 	 * @return Pagina en donde se realiza la Solicitud de Credito
 	 * @throws IOException
 	 */
@@ -693,11 +751,23 @@ public class ClientesBean {
 //			mensajeGarante = null;
 //		}
 //	}
-	/** 
+
+	public void selecionarclienteb(String Cedula) {
+
+		System.out.println("SE DEBE DE RETORNAR VISTA LISTA BLOQUEOS CON ACTUALES B");
+		cliente.setEstado("C");
+		gestionUsuarios.desbloquear(cliente);
+	}
+
+	/**
 	 * Metodo que me permite validar que los egresos sean mayores a los ingresos
-	 * @param ingresos Variable tipo double en donde se asigna los ingresos del cliente
-	 * @param egresos Variable tipo double en donde se asigna los egresos del cliente
-	 * @return Variable tipo string en donde me devuelve un mensaje si los egresos son mayores a los ingresos
+	 * 
+	 * @param ingresos Variable tipo double en donde se asigna los ingresos del
+	 *                 cliente
+	 * @param egresos  Variable tipo double en donde se asigna los egresos del
+	 *                 cliente
+	 * @return Variable tipo string en donde me devuelve un mensaje si los egresos
+	 *         son mayores a los ingresos
 	 */
 	public String confirmarTasaPago(double ingresos, double egresos) {
 		if (egresos > ingresos) {
@@ -705,8 +775,11 @@ public class ClientesBean {
 		}
 		return null;
 	}
-	/** 
-	 * Metodo que me permite asignar un archivo al atributo de tipo InputStream arCedula de la clase
+
+	/**
+	 * Metodo que me permite asignar un archivo al atributo de tipo InputStream
+	 * arCedula de la clase
+	 * 
 	 * @param event Variable de tipo FileUploadEvent
 	 * @throws IOException
 	 */
@@ -715,8 +788,11 @@ public class ClientesBean {
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 		arCedula = event.getFile().getInputStream();
 	}
-	/** 
-	 * Metodo que me permite asignar un archivo al atributo de tipo InputStream arPlanillaServicios de la clase
+
+	/**
+	 * Metodo que me permite asignar un archivo al atributo de tipo InputStream
+	 * arPlanillaServicios de la clase
+	 * 
 	 * @param event Variable de tipo FileUploadEvent
 	 * @throws IOException
 	 */
@@ -725,8 +801,11 @@ public class ClientesBean {
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 		arPlanillaServicios = event.getFile().getInputStream();
 	}
-	/** 
-	 * Metodo que me permite asignar un archivo al atributo de tipo InputStream arPlanillaServicios de la clase
+
+	/**
+	 * Metodo que me permite asignar un archivo al atributo de tipo InputStream
+	 * arPlanillaServicios de la clase
+	 * 
 	 * @param event Variable de tipo FileUploadEvent
 	 * @throws IOException
 	 */
@@ -734,33 +813,42 @@ public class ClientesBean {
 		FacesMessage msg = new FacesMessage("Successful", event.getFile().getFileName() + " is uploaded.");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 		arRolDePagos = event.getFile().getInputStream();
-	} 
-	/** 
-	 * Metodo que permite obtener una lista de creditos aprovados, en donde se pasa la cedula del cliente 
-	 * de quien se desea obtener los creditos aprovados. La lista de creditos aprovados se asigana a la variable
-	 * de tipo list lstCreditosAprovados de la clase
-	 * @param cedula Variable en donde se asigna la cedula del cliente de quien se desea obtener los creditos aprovados
+	}
+
+	/**
+	 * Metodo que permite obtener una lista de creditos aprovados, en donde se pasa
+	 * la cedula del cliente de quien se desea obtener los creditos aprovados. La
+	 * lista de creditos aprovados se asigana a la variable de tipo list
+	 * lstCreditosAprovados de la clase
+	 * 
+	 * @param cedula Variable en donde se asigna la cedula del cliente de quien se
+	 *               desea obtener los creditos aprovados
 	 */
 //	public void creditosAprovados(String cedula) {   
 //		System.out.println("ENTRO EN ESTE PINCHE METODO" + cedulaParametro);
 //		lstCreditosAprobados = gestionUsuarios.creditosAprovados(cedula);
 //	}  
-	/** 
-	 * Metodo que me permite asignar un valor a las variables codigoCredito de la clase, y editable de la clase
-	 * @param cod Variable que se asigna ala variable codigoCredito de tipo int dde la clase
+	/**
+	 * Metodo que me permite asignar un valor a las variables codigoCredito de la
+	 * clase, y editable de la clase
+	 * 
+	 * @param cod Variable que se asigna ala variable codigoCredito de tipo int dde
+	 *            la clase
 	 */
-	 public void cambioVar(int cod) {
-		 codigoCredito = cod;
-		 editable = true; 
-	 } 
-	 
-	 /** 
-	  * Metodo que permite obtener los detalles de un credito en especifico en donde se asigana como paramatro el codigo del credito
-	  * @return Variable de tipo lista en donde contiene los detalles de un credito.
-	  */
+	public void cambioVar(int cod) {
+		codigoCredito = cod;
+		editable = true;
+	}
+
+	/**
+	 * Metodo que permite obtener los detalles de un credito en especifico en donde
+	 * se asigana como paramatro el codigo del credito
+	 * 
+	 * @return Variable de tipo lista en donde contiene los detalles de un credito.
+	 */
 //	 public List<DetalleCredito> verDealles(){
 //		 List<DetalleCredito> list = gestionUsuarios.verCredito(codigoCredito).getDetalles();
 //		 return list;
 //	 }
-	
+
 }
