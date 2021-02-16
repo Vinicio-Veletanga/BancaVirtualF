@@ -11,11 +11,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.xml.*;
-
+import javax.xml.*; 
 import ec.edu.ups.BancaVirtualF.dao.CuentaDeAhorroDAO;
 import ec.edu.ups.BancaVirtualF.modelo.CuentaDeAhorro;
 /**
@@ -29,10 +29,47 @@ public class SolicitudPoliza implements Serializable {
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="idsp")
+	
 	private int idsp; 
 	private CuentaDeAhorro cuenta;
 	private Poliza poliza;
 	private String estado;
+	@Lob 
+	@Column(length=16777216)
+	private  byte[] cedula;
+	@Lob 
+	@Column(length=16777216)
+	private  byte[] planilla;
+	
+	public SolicitudPoliza() {
+	}
+	
+ 
+
+	public byte[] getCedula() {
+		return cedula;
+	}
+
+
+
+	public void setCedula(byte[] cedula) {
+		this.cedula = cedula;
+	}
+
+
+
+	public byte[] getPlanilla() {
+		return planilla;
+	}
+
+
+
+	public void setPlanilla(byte[] planilla) {
+		this.planilla = planilla;
+	}
+
+
+
 	public int getIdsp() {
 		return idsp;
 	}

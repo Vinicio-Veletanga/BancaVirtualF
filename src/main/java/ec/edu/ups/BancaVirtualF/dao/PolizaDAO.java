@@ -43,6 +43,19 @@ public class PolizaDAO {
 
 		Query q = em.createQuery(jpql, Poliza.class);
 		return q.getResultList();
+	} 
+	
+	public Poliza validardias(int dia) throws Exception {
+		String tl = "select s from Polia s where "+dia+">= s.diasminimo AND "+dia+" <= s.diasmaximo";
+		try {
+			String jpql = tl;
+			Query q = em.createQuery(jpql, Poliza.class);
+			return (Poliza)q.getSingleResult();
+		} catch (NoResultException e) {
+			throw new Exception("Erro Consultas Entre Fechas");
+		}
+
 	}
+	
 
 }

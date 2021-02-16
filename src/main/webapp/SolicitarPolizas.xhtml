@@ -43,13 +43,27 @@
 				</h:dataTable>
 			</h:form>
 
+			<h:form id="mainForm1" value="#{polizasBean.getListasPolizas()}"
+				var="poliza">
+				<div class="form-group">
+					<label>Ingrese Cedula</label>
+					<h:inputText id="cedddd" value="#{cajeroBean.cliente.cedula}"
+						maxlength="10" class="form-control">
+						<f:ajax event="blur" render="Datos Cuenta panel Monto"
+							execute="dep ret caj #{cajeroBean.cargarTransacciones()}" />
+					</h:inputText>
+					<br /> <label>Cliente:</label><br />
+					<h:outputText id="Datos" value="#{cajeroBean.valCedula()}" />
+					<br /> <label>Numero de Cuenta:</label><br />
+					<h:outputText id="Cuenta" value="#{cajeroBean.numCuenta()}" />
+				</div>
+			</h:form>
 			<h:form role=" form" id="solicitud">
 
 				<div class="form-group">
 					<label>Ingrese dias</label>
-					<h:inputText value="#{polizasBean.poliza.diasMinimo}"
-						maxlength="10" class="form-control" required="true">
-						<f:ajax event="blur" render="valueError" />
+					<h:inputText value="" maxlength="10" class="form-control"
+						required="true">
 					</h:inputText>
 				</div>
 				<div class="form-group">
@@ -58,6 +72,27 @@
 						maxlength="10" class="form-control" required="true">
 						<f:ajax event="blur" render="valueError" />
 					</h:inputText>
+					<h:commandButton value="Subir Cedula"
+						actionListener="#{cajeroBean.registrar()}" update="message"
+						class="btn btn-success btn-lg">
+
+					</h:commandButton><br /><br />
+					<h:commandButton value="Subir Plantilla"
+						actionListener="#{cajeroBean.registrar()}" update="message"
+						class="btn btn-success btn-lg">
+
+					</h:commandButton><br /><br />
+					<h:commandButton value="Solicitar Poliza"
+						actionListener="#{cajeroBean.registrar()}" update="message"
+						class="btn btn-success btn-lg">
+
+					</h:commandButton>
+					<br />
+					<br /> <label>Interes por dias:</label><br />
+					<h:outputText id="tasa" value="#{polizasBean.poliza.tasaInteres}" /><br />
+
+					<br /> <label>Monto a Pagar:</label><br />
+					<h:outputText id="Datos1" value="" />
 				</div>
 
 			</h:form>
