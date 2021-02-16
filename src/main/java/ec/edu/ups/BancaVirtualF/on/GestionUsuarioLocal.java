@@ -47,4 +47,5 @@ public interface GestionUsuarioLocal {
 	public List<Poliza> listasPolizas();
 	public List<Poliza> getListasPolizas();
 	public String realizarTransaccion(String cuenta, double monto, String tipoTransaccion);
+	public List<Transaccion> obtenerTransaccionesFechaHora(String cedula, String fechaI, String fechaF);
 	}
