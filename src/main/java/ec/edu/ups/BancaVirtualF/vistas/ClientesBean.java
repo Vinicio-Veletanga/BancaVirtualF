@@ -41,9 +41,10 @@ public class ClientesBean {
 	private Cliente garante;
 	private String numeroCuenta;
 	private String cedulaParametro;
+	private Transaccion transaccion;
 	private List<Cliente> lstClientes;
 	private List<SesionCliente> lstSesionesCliente;
-//	private List<Transaccion> lstTransacciones; 
+	private List<Transaccion> lstTransacciones;
 //	private List<Credito> lstCreditosAprobados; 
 //	private List<DetalleCredito> lstDetallesCredito;
 	private String saldoCuenta;
@@ -126,8 +127,6 @@ public class ClientesBean {
 	public String getNumeroCuenta() {
 		return numeroCuenta;
 	}
-	
-	
 
 	public Cliente getIdcliente() {
 		return idcliente;
@@ -226,34 +225,20 @@ public class ClientesBean {
 		if (cedulaParametro != null) {
 			try {
 				buscarCuentaDeAhorro = gestionUsuarios.buscarCuentaDeAhorroCliente(cedulaParametro);
-				/*
-				 * List<Transaccion> lista =
-				 * gestionUsuarios.listadeTransacciones(cedulaParametro); transaccion =
-				 * lista.get(lista.size() - 1); ultimosDias();
-				 */
+				List<Transaccion> lista = gestionUsuarios.listadeTransacciones(cedulaParametro);
+				transaccion = lista.get(lista.size() - 1);
+				ultimosDias();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-//	/***
-//	 * Metodo que permite obtener el atributo transaccion de la clase
-//	 * 
-//	 * @return Atributo transaccion de la clase
-//	 */
-//	public Transaccion getTransaccion() {
-//		return transaccion;
-//	}
 
-	/**
-	 * Metodo que permite asignar un valor al atributo transaccion de la clase
-	 * 
-	 * @param transaccion Variable asignada al atributo transaccion de la clase
-	 */
-//	public void setTransaccion(Transaccion transaccion) {
-//		this.transaccion = transaccion;
-//	}
+	
+
+
+
 
 	/**
 	 * Metodo que permite obtener el atributo de tipo lista lstClientes de la clase
@@ -262,6 +247,45 @@ public class ClientesBean {
 	 */
 	public List<Cliente> getLstClientes() {
 		return lstClientes;
+	}
+
+	/***
+	 * Metodo que permite obtener el atributo transaccion de la clase
+	 * 
+	 * @return Atributo transaccion de la clase
+	 */
+	public Transaccion getTransaccion() {
+		return transaccion;
+	}
+
+	/**
+	 * Metodo que permite asignar un valor al atributo transaccion de la clase
+	 * 
+	 * @param transaccion Variable asignada al atributo transaccion de la clase
+	 */
+	public void setTransaccion(Transaccion transaccion) {
+		this.transaccion = transaccion;
+	}
+
+	/**
+	 * Metodo que permite obtener el atributo de tipo lista lstTransacciones de la
+	 * clase
+	 * 
+	 * @return Atributo de tipo lista lstTransacciones de la clase
+	 */
+	public List<Transaccion> getLstTransacciones() {
+		return lstTransacciones;
+	}
+
+	/**
+	 * Metodo que permite asignar un valor al atributo de tipo lista
+	 * lstTransacciones de la clase
+	 * 
+	 * @param lstTransacciones Variable asignada al atributo de tipo lista
+	 *                         lstTransacciones de la clase
+	 */
+	public void setLstTransacciones(List<Transaccion> lstTransacciones) {
+		this.lstTransacciones = lstTransacciones;
 	}
 
 	/**
@@ -296,24 +320,6 @@ public class ClientesBean {
 	public void setLstSesionesCliente(List<SesionCliente> lstSesionesCliente) {
 		this.lstSesionesCliente = lstSesionesCliente;
 	}
-
-	/**
-	 * Metodo que permite obtener el atributo de tipo lista lstTransacciones de la
-	 * clase
-	 * 
-	 * @return Atributo de tipo lista lstTransacciones de la clase
-	 */
-//	public List<Transaccion> getLstTransacciones() {
-//		return lstTransacciones;
-//	}
-//	/** 
-//	 * Metodo que permite asignar un valor al atributo de tipo lista lstTransacciones de la clase
-//	 * @param lstTransacciones  Variable asignada al atributo de tipo lista
-//	 *                           lstTransacciones de la clase
-//	 */
-//	public void setLstTransacciones(List<Transaccion> lstTransacciones) {
-//		this.lstTransacciones = lstTransacciones;
-//	}
 
 	/**
 	 * Metodo que permite obtener el atributo de tipo date fechaInicio de la clase
@@ -580,56 +586,59 @@ public class ClientesBean {
 	 * 
 	 * @throws Exception
 	 */
-//	public void validarFechas() throws Exception {
-//		if (this.fechaInicio != null && this.fechaFinal != null) {
-//			/*
-//			 * System.out.println(fechaInicio.getClass()); DateFormat hourdateFormat = new
-//			 * SimpleDateFormat("dd/MM/yyyy"); String d =
-//			 * hourdateFormat.format(fechaInicio);
-//			 * System.out.println(buscarCuentaDeAhorro.getNumeroCuentaDeAhorro());
-//			 * System.out.println(d +"***"+fechaFinal);
-//			 */
-//			DateFormat hourdateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//			String inicioF = hourdateFormat.format(fechaInicio);
-//			String finalF = hourdateFormat.format(fechaFinal);
-//			List<Transaccion> listaTrans = gestionUsuarios.obtenerTransaccionesFechaHora(cedulaParametro, inicioF,
-//					finalF);
-//			lstTransacciones = listaTrans;
-//			System.out.println("H" + lstTransacciones.size());
-//			System.out.println(cedulaParametro);
-//			System.out.println(new Date());
-//		}
-//	}
+	public void validarFechas() throws Exception {
+		if (this.fechaInicio != null && this.fechaFinal != null) {
+			/*
+			 * System.out.println(fechaInicio.getClass()); DateFormat hourdateFormat = new
+			 * SimpleDateFormat("dd/MM/yyyy"); String d =
+			 * hourdateFormat.format(fechaInicio);
+			 * System.out.println(buscarCuentaDeAhorro.getNumeroCuentaDeAhorro());
+			 * System.out.println(d +"***"+fechaFinal);
+			 */
+			DateFormat hourdateFormat = new SimpleDateFormat("yyyy-MM-dd");
+			String inicioF = hourdateFormat.format(fechaInicio);
+			String finalF = hourdateFormat.format(fechaFinal);
+			List<Transaccion> listaTrans = gestionUsuarios.obtenerTransaccionesFechaHora(cedulaParametro, inicioF,
+					finalF);
+			lstTransacciones = listaTrans;
+			System.out.println("H" + lstTransacciones.size());
+			System.out.println(cedulaParametro);
+			System.out.println(new Date());
+		}
+	}
 
 	/**
 	 * Metodo que me devuelve el tipo de transaccion que se esta utilizando
 	 */
 	public void obtenerTransaccionesInicioFinal() {
+
 		/*
 		 * lstTransacciones =
 		 * gestionUsuarios.obtenerTransaccionesFechaHora(buscarCuentaDeAhorro.getCliente
 		 * ().getCedula(), fechaInicio, fechaFinal);
 		 */
+
 		System.out.println("Este es el tipo de transaccion : " + tipoTransaccion);
 
 	}
+
 	/**
 	 * Metodo que permite obtener una lista de transacciones entre una fecha de
 	 * inicio y una fecha final
 	 */
-//	public void ultimosDias() {
-//		Calendar c = Calendar.getInstance();
-//		fechaFinal = c.getTime();
-//		c.add(Calendar.DATE, -30);
-//		fechaInicio = c.getTime();
-//		DateFormat hourdateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//		String inicioF = hourdateFormat.format(fechaInicio);
-//		String finalF = hourdateFormat.format(fechaFinal);
-//		List<Transaccion> listaTrans = gestionUsuarios.obtenerTransaccionesFechaHora(cedulaParametro, inicioF, finalF);
-//		lstTransacciones = listaTrans;
-//		System.out.println(lstTransacciones.size());
-//		System.out.println(cedulaParametro);
-//	}
+	public void ultimosDias() {
+		Calendar c = Calendar.getInstance();
+		fechaFinal = c.getTime();
+		c.add(Calendar.DATE, -30);
+		fechaInicio = c.getTime();
+		DateFormat hourdateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String inicioF = hourdateFormat.format(fechaInicio);
+		String finalF = hourdateFormat.format(fechaFinal);
+		List<Transaccion> listaTrans = gestionUsuarios.obtenerTransaccionesFechaHora(cedulaParametro, inicioF, finalF);
+		lstTransacciones = listaTrans;
+		System.out.println(lstTransacciones.size());
+		System.out.println(cedulaParametro);
+	}
 
 	/**
 	 * Metodo que permite obtener las transacciones entre una fechas, las cuales se
@@ -637,51 +646,51 @@ public class ClientesBean {
 	 * 
 	 * @throws Exception
 	 */
-//	public void validarFechas2() throws Exception {
-//		System.out.println(tipoTransaccion);
-//
-//		if (this.fechaInicio != null && this.fechaFinal != null) {
-//
-//			if (errorFechas() == null) {
-//				fechasInvalidas = errorFechas();
-//				DateFormat hourdateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//				String inicioF = hourdateFormat.format(fechaInicio);
-//				String finalF = hourdateFormat.format(fechaFinal);
-//				List<Transaccion> listaTrans = gestionUsuarios.obtenerTransaccionesFechaHora(cedulaParametro, inicioF,
-//						finalF);
-//
-//				if (tipoTransaccion != null) {
-//					if (tipoTransaccion.equals("Todos")) {
-//						lstTransacciones = listaTrans;
-//					} else if (tipoTransaccion.equals("Depositos")) {
-//						lstTransacciones = new ArrayList<Transaccion>();
-//						for (Transaccion transaccion : listaTrans) {
-//							if (transaccion.getTipo().equals("deposito")) {
-//								lstTransacciones.add(transaccion);
-//							}
-//						}
-//					} else {
-//						lstTransacciones = new ArrayList<Transaccion>();
-//						for (Transaccion transaccion : listaTrans) {
-//							if (transaccion.getTipo().equals("retiro")) {
-//								lstTransacciones.add(transaccion);
-//							}
-//						}
-//					}
-//				}
-//			} else {
-//				fechasInvalidas = errorFechas();
-//				lstTransacciones.removeAll(lstTransacciones);
-//			}
-//
-//			/*
-//			 * System.out.println("H"+lstTransacciones.size());
-//			 * System.out.println(cedulaParametro); System.out.println(new Date());
-//			 */
-//		}
-//
-//		System.out.println("LISTA DE TRANSACCION SIZE :   " + lstTransacciones.size());
-//	}
+	public void validarFechas2() throws Exception {
+		System.out.println(tipoTransaccion);
+
+		if (this.fechaInicio != null && this.fechaFinal != null) {
+
+			if (errorFechas() == null) {
+				fechasInvalidas = errorFechas();
+				DateFormat hourdateFormat = new SimpleDateFormat("yyyy-MM-dd");
+				String inicioF = hourdateFormat.format(fechaInicio);
+				String finalF = hourdateFormat.format(fechaFinal);
+				List<Transaccion> listaTrans = gestionUsuarios.obtenerTransaccionesFechaHora(cedulaParametro, inicioF,
+						finalF);
+
+				if (tipoTransaccion != null) {
+					if (tipoTransaccion.equals("Todos")) {
+						lstTransacciones = listaTrans;
+					} else if (tipoTransaccion.equals("Depositos")) {
+						lstTransacciones = new ArrayList<Transaccion>();
+						for (Transaccion transaccion : listaTrans) {
+							if (transaccion.getTipo().equals("deposito")) {
+								lstTransacciones.add(transaccion);
+							}
+						}
+					} else {
+						lstTransacciones = new ArrayList<Transaccion>();
+						for (Transaccion transaccion : listaTrans) {
+							if (transaccion.getTipo().equals("retiro")) {
+								lstTransacciones.add(transaccion);
+							}
+						}
+					}
+				}
+			} else {
+				fechasInvalidas = errorFechas();
+				lstTransacciones.removeAll(lstTransacciones);
+			}
+
+			/*
+			 * System.out.println("H"+lstTransacciones.size());
+			 * System.out.println(cedulaParametro); System.out.println(new Date());
+			 */
+		}
+
+		System.out.println("LISTA DE TRANSACCION SIZE :   " + lstTransacciones.size());
+	}
 
 	/**
 	 * Metodo que permite verificar que la fecha de inicio no sea mayor a la fecha
