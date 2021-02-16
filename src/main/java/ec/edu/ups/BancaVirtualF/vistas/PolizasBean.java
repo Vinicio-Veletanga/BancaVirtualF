@@ -40,12 +40,16 @@ public class PolizasBean {
 	private GestionUsuarioLocal polizaON;
 
 	private Poliza poliza;
+	private Double interes;
+	private int dias;
 
 	private List<Poliza> listasPolizas;
 
 	@PostConstruct
 	public void init() {
 		poliza = new Poliza();
+		dias = 0;
+		interes=0.0;
 		loadData();
 	}
 
@@ -55,6 +59,14 @@ public class PolizasBean {
 
 	public GestionUsuarioLocal getPolizaON() {
 		return polizaON;
+	}
+
+	public int getDias() {
+		return dias;
+	}
+
+	public void setDias(int dias) {
+		this.dias = dias;
 	}
 
 	public void setPolizaON(GestionUsuarioLocal polizaON) {
@@ -77,6 +89,14 @@ public class PolizasBean {
 		this.listasPolizas = listasPolizas;
 	}
 
+	public Double getInteres() {
+		return interes;
+	}
+
+	public void setInteres(Double interes) {
+		this.interes = interes;
+	}
+
 	public void addMessage(String summary, String detail) {
 		FacesContext context = FacesContext.getCurrentInstance();
 		context.getExternalContext().getFlash().setKeepMessages(true);
@@ -92,6 +112,34 @@ public class PolizasBean {
 		addMessage(event.getComponent().getId() + " moved", "Left: " + event.getLeft() + ", Top: " + event.getTop());
 	}
 
+	public String poInteres() {
+
+		try {
+			Poliza c;
+			c = polizaON.guardaringresodias(dias);
+			String tasa= String.valueOf(c.getTasaInteres());
+			return tasa;
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			// e.printStackTrace();
+		}
+		return null;
+
+	}
+
+	// METODO PARA OBTENER
+	public void obtenerInteres(){
+		Poliza po;
+		try {
+			po = polizaON.guardaringresodias(dias);
+			interes = po.getTasaInteres();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 
 	// METODO PARA GUARDAR POLIZAS
 	public void guardarPoliza() {

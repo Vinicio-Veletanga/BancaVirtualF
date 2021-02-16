@@ -46,5 +46,6 @@ public interface GestionUsuarioLocal {
 	public void guardarPoliza(Poliza p);
 	public List<Poliza> listasPolizas();
 	public List<Poliza> getListasPolizas();
+	public Poliza guardaringresodias(int dias) throws Exception ;
 	public String realizarTransaccion(String cuenta, double monto, String tipoTransaccion);
 	}
